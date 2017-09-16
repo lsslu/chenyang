@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!-- saved from url=(0098)http://www.plex-vr.com/peomodel/zaojiu/15048659250ZS252017.html?from=groupmessage&isappinstalled=0 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="./叠境光场建模0092_files/hm.js"></script><script type="text/javascript" src="./叠境光场建模0092_files/jquery.min.js"></script>
+    <script type="text/javascript" src="./叠境光场建模0092_files/three.min.js"></script>
+    <script type="text/javascript" src="./叠境光场建模0092_files/Detector.js"></script>
+    <script type="text/javascript" src="./叠境光场建模0092_files/OrbitControls.js"></script>
+    <script src="./叠境光场建模0092_files/pace.min.js"></script>
+    <script src="./叠境光场建模0092_files/jweixin-1.2.0.js"></script>
+<script>
+var url=encodeURIComponent(location.href.split('#')[0]);
+  $.ajax({
+    type : "get",
+    url : "http://www.plex-vr.com/plus/jssdk.php?url="+url,
+    dataType : "jsonp",
+    jsonp: "callback",
+    jsonpCallback:"success_jsonpCallback",
+    success : function(data){
+        wx.config({
+        //debug:true,
+　　　　 appId: data.appId,
+　　　　 timestamp: data.timestamp,
+url: data.url,
+　　　　 nonceStr: data.nonceStr,
+　　　　 signature: data.signature,
+　　　　jsApiList: [
+       　　"onMenuShareTimeline", //分享给好友
+       　　"onMenuShareAppMessage", //分享到朋友圈
+       　　"onMenuShareQQ",  //分享到QQ
+       　　"onMenuShareWeibo" //分享到微博
+]
+});
+},
+   error:function(data){
+          alert("连接失败！");
+     }
+});
+  wx.ready(function (){
+    var shareData = {
+      title: '叠境光场建模0092',
+      desc: '叠境光场，快速、逼真重建3D模型、动态人物模型',
+      link: location.href.split('#')[0],
+      imgUrl: ''
+    };
+    wx.onMenuShareAppMessage(shareData);
+    wx.onMenuShareTimeline(shareData);
+    wx.onMenuShareQQ(shareData);
+    wx.onMenuShareWeibo(shareData);
+  });
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?389c79bae308eb7f30ad1fa7607c538e";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<link rel="stylesheet" type="text/css" href="./叠境光场建模0092_files/style.css">
+<style>
+    .pace-running:before{background-image: url('');}
+    .zaojiu_bg, .mmc_bg{position: fixed;top:0;left: 0;right: 0;z-index: -1;height: 100%;}
+    .zaojiu_bg img{height: 100%; margin: auto;display: block;
+      -webkit-filter: blur(3px); /* Chrome, Opera */
+        -moz-filter: blur(3px);
+        -ms-filter: blur(3px);
+            filter: blur(3px);}
+    .mmc_bg img{height: 100%; margin: auto;display: block;     }
+    .zaojiu-logo{position: fixed;top:10px;left: 10px; z-index: 4; background-image: url(http://cdn.plex-vr.com/3dmodel/zaojiu/zaojiu_logo.png); background-repeat: no-repeat;height:60px; width: 81px; background-size: 81px 60px; }
+.cutpic {position: fixed;left: 0; bottom:0;z-index:4 ; background:#fff; background-repeat: no-repeat;height:18%; width: 100%; background-position: center center;
+
+  }
+
+  .logo-black{
+    z-index: 5;
+  }
+
+
+</style>
+</head>
+<body class="  pace-done"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+  <div class="pace-progress-inner"></div>
+</div>
+<div class="pace-activity"></div></div>
+
+
+    <div class="zaojiu_bg">
+        <img src="./叠境光场建模0092_files/zaojiu_bg.jpg">
+      </div>
+
+
+
+    <div class="cutpic"></div>
+<style> .logo-black{bottom: 5%;height: 8%;width: 100%;background-size: contain;background-position: center;}</style>
+
+
+ <script id="fragment_shader" type="x-shader/x-fragment">
+    //uniform vec3 color;
+    uniform sampler2D texture;
+    uniform samplerCube envMap;
+    varying vec3 vReflect;
+    varying vec2 vUv;
+    void main() {
+      vec4 envColor = textureCube( envMap, vec3( -vReflect.x, vReflect.yz ) );
+      vec4 base = texture2D(texture,vUv);
+      //gl_FragColor = base;
+      gl_FragColor = vec4(mix(base.rgb, envColor.xyz, 0.0), 1.0);
+    }
+</script>
+<script id="vertex_Shader" type="x-shader/x-vertex">
+    varying vec3 vReflect;
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+      vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+      vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );
+      vec3 I = worldPosition.xyz - cameraPosition;
+      vReflect = reflect( I, worldNormal );
+      gl_Position = projectionMatrix * mvPosition;
+    }
+</script>
+<script>
+        if (!Detector.webgl) {
+            Detector.addGetWebGLMessage();
+        }
+        var container;
+        var camera, controls, scene, renderer;
+
+        var windowHalfX = window.innerWidth / 2;
+        var windowHalfY = window.innerHeight / 2;
+        init();
+        animate();
+        function init() {
+            container = document.createElement('div');
+            document.body.appendChild(container);
+            /* Camera */
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1500);
+            camera.position.z =6;
+            /* Scene */
+            scene = new THREE.Scene();
+            /* textureCube */
+            var r = "/case/store/textures/cube/light/";
+    				var urls = [
+    					r + "px.jpg", r + "nx.jpg",
+    					r + "py.jpg", r + "ny.jpg",
+    					r + "pz.jpg", r + "nz.jpg"
+    				];
+    				var cubemap = new THREE.CubeTextureLoader().load( urls );
+            cubemap.format = THREE.RGBFormat;
+            // Skybox
+            var skyshader = THREE.ShaderLib[ "cube" ];
+            skyshader.uniforms[ "tCube" ].value = cubemap;
+            var skymaterial = new THREE.ShaderMaterial( {
+              fragmentShader: skyshader.fragmentShader,
+              vertexShader: skyshader.vertexShader,
+              uniforms: skyshader.uniforms,
+              depthWrite: false,
+              side: THREE.BackSide
+            } );
+            var sky = new THREE.Mesh( new THREE.BoxGeometry( 1000, 1000, 1000 ), skymaterial );
+            sky.visible = false;
+            scene.add( sky );
+            uniforms = {
+                texture:{
+                  type: "t",
+                  value: new THREE.TextureLoader().load('http://cdn.plex-vr.com/3dmodel/zaojiu/zaojiu009218602197917.png'),
+                },
+                envMap: {
+                  type: "t",
+                  value: cubemap
+                }
+            };
+            var material = new THREE.ShaderMaterial( {
+              uniforms: uniforms,
+              vertexShader: document.getElementById( 'vertex_Shader' ).textContent,
+              fragmentShader: document.getElementById( 'fragment_shader' ).textContent,
+              side: THREE.DoubleSide
+            } );
+
+
+            var Loader = new THREE.JSONLoader();
+            Loader.load('http://cdn.plex-vr.com/3dmodel/zaojiu/zaojiu009218602197917.js', createScene);
+            function createScene(geometry, materials){
+                geometry.computeVertexNormals();
+                var mesh = new THREE.Mesh(geometry,material);
+                mesh.geometry.center();
+        				mesh.rotation.x= THREE.Math.degToRad( 0 );
+        				mesh.rotation.y= THREE.Math.degToRad( 0 );
+        				mesh.rotation.z= THREE.Math.degToRad( 0 );
+                mesh.position.y = -0.8;
+                scene.add(mesh);
+            }
+
+
+
+            /* Renderer */
+            renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            /* Background color */
+            renderer.setClearColor(new THREE.Color("hsl(0, 0%, 90%)"));
+
+            renderer.setClearColor(new THREE.Color("hsl(0, 0%, 90%)"),0);
+
+            container.appendChild(renderer.domElement);
+            /* Controls */
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.25;
+            controls.enableZoom = true;
+            /* 限制放大缩小的范围 */
+              controls.minDistance=camera.position.z/1.5;
+            controls.maxDistance=camera.position.z;
+
+            /* 是否现在任意翻转 */
+            controls.minPolarAngle=Math.PI/2-0.0000001;
+                  controls.maxPolarAngle=Math.PI/2;
+                  controls.enablePan=false;
+            /* Events */
+            window.addEventListener('resize', onWindowResize, false);
+        }
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            render();
+        }
+        function render() {
+            renderer.render(scene, camera);
+        }
+</script><div><canvas width="1916" height="446" style="width: 1916px; height: 446px;"></canvas></div>
+
+
+</body></html>

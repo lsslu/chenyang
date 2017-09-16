@@ -1,0 +1,160 @@
+
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .left,
+        .right {
+            position: absolute;
+            color: #fff;
+            font-family: Geneva, sans-serif;
+        }
+
+        .left {
+            bottom: 1em;
+            left: 1em;
+            text-align: left;
+        }
+
+        .right {
+            top: 0;
+            right: 0;
+            text-align: right;
+        }
+
+        a {
+            color: #f58231;
+        }
+        .loading{
+            position: absolute;
+            top:50%;
+            left: 50%;
+            color: #333;
+            width: 200px;
+            margin-left: -100px;
+
+        }
+        .logo-black{
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background-image: url(http://www.plex-vr.com/templets/plex-vr/images/logo_black_ch.png);
+            background-repeat: no-repeat;
+            width: 180px;
+            height: 40px;
+            background-size: 180px 40px;
+        }
+        .logo-white{
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background-image: url(http://www.plex-vr.com/templets/plex-vr/images/logo_white_ch.png);
+            background-repeat: no-repeat;
+            width: 180px;
+            height: 40px;
+            background-size: 180px 40px;
+        }
+
+.pace-running:before{
+    content: '';
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 100;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e5e5;
+
+    filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+        
+    -webkit-filter: blur(20px); /* Chrome, Opera */
+        -moz-filter: blur(20px);
+        -ms-filter: blur(20px);    
+            filter: blur(20px);
+        
+        filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=20, MakeShadow=false); /* IE6~IE9 */
+}
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+
+  z-index: 2000;
+  position: fixed;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -50%;
+  height: 10px;
+  width: 600px;
+  background: #fff;
+  border-radius: 4px;
+
+  overflow: hidden;
+}
+@media screen and (max-width: 425px) {
+  .pace {
+  height: 8px;
+  width: 300px;
+  }
+}
+
+.pace .pace-progress {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  max-width: 600px;
+  z-index: 2000;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 100%;
+  height: 100%;
+  width: 100%;
+  background: #61c2ce;
+
+}
+
+@media screen and (max-width: 425px) {
+  .pace .pace-progress {
+  max-width: 300px;
+  }
+}
+
+.pace.pace-inactive {
+  display: none;
+}
+
+
+
+
