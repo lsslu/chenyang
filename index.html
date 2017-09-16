@@ -10,47 +10,7 @@
     <script type="text/javascript" src="./叠境光场建模0092_files/OrbitControls.js"></script>
     <script src="./叠境光场建模0092_files/pace.min.js"></script>
     <script src="./叠境光场建模0092_files/jweixin-1.2.0.js"></script>
-<script>
-var url=encodeURIComponent(location.href.split('#')[0]);
-  $.ajax({
-    type : "get",
-    url : "http://www.plex-vr.com/plus/jssdk.php?url="+url,
-    dataType : "jsonp",
-    jsonp: "callback",
-    jsonpCallback:"success_jsonpCallback",
-    success : function(data){
-        wx.config({
-        //debug:true,
-　　　　 appId: data.appId,
-　　　　 timestamp: data.timestamp,
-url: data.url,
-　　　　 nonceStr: data.nonceStr,
-　　　　 signature: data.signature,
-　　　　jsApiList: [
-       　　"onMenuShareTimeline", //分享给好友
-       　　"onMenuShareAppMessage", //分享到朋友圈
-       　　"onMenuShareQQ",  //分享到QQ
-       　　"onMenuShareWeibo" //分享到微博
-]
-});
-},
-   error:function(data){
-          alert("连接失败！");
-     }
-});
-  wx.ready(function (){
-    var shareData = {
-      title: '叠境光场建模0092',
-      desc: '叠境光场，快速、逼真重建3D模型、动态人物模型',
-      link: location.href.split('#')[0],
-      imgUrl: ''
-    };
-    wx.onMenuShareAppMessage(shareData);
-    wx.onMenuShareTimeline(shareData);
-    wx.onMenuShareQQ(shareData);
-    wx.onMenuShareWeibo(shareData);
-  });
-</script>
+
 <script>
 var _hmt = _hmt || [];
 (function() {
@@ -168,7 +128,7 @@ var _hmt = _hmt || [];
             uniforms = {
                 texture:{
                   type: "t",
-                  value: new THREE.TextureLoader().load('http://cdn.plex-vr.com/3dmodel/zaojiu/zaojiu009218602197917.png'),
+                  value: new THREE.TextureLoader().load('zaojiu009218602197917.png'),
                 },
                 envMap: {
                   type: "t",
@@ -184,7 +144,7 @@ var _hmt = _hmt || [];
 
 
             var Loader = new THREE.JSONLoader();
-            Loader.load('http://cdn.plex-vr.com/3dmodel/zaojiu/zaojiu009218602197917.js', createScene);
+            Loader.load('zaojiu/zaojiu009218602197917.js', createScene);
             function createScene(geometry, materials){
                 geometry.computeVertexNormals();
                 var mesh = new THREE.Mesh(geometry,material);
